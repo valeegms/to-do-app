@@ -1,5 +1,4 @@
 import { Button } from "primereact/button";
-import ConfirmDialog from "./ConfirmDialog";
 import TaskCard from "./TaskCard";
 import { Category } from "@/models/Category";
 import { Task } from "@/models/Task";
@@ -9,6 +8,7 @@ import { initializeTask } from "@/utils/taskUtils";
 
 const AddTask = lazy(() => import("./AddTask"));
 const EditTask = lazy(() => import("./EditTask"));
+const ConfirmDialog = lazy(() => import("./ConfirmDialog"));
 
 export default function TaskManager({
   tasks,
@@ -96,13 +96,15 @@ export default function TaskManager({
           task={selectedTask}
         />
       </Suspense>
-      <ConfirmDialog
-        title={`Delete task "${selectedTask.title}"`}
-        message="Are you sure you want to delete this task? This action cannot be undone."
-        isVisible={isDeleteDialogOpen}
-        onConfirm={handleOnConfirm}
-        onHide={() => setIsDeleteDialogOpen(false)}
-      />
+      <Suspense fallback={null}>
+        <ConfirmDialog
+          title={`Delete task "${selectedTask.title}"`}
+          message="Are you sure you want to delete this task? This action cannot be undone."
+          isVisible={isDeleteDialogOpen}
+          onConfirm={handleOnConfirm}
+          onHide={() => setIsDeleteDialogOpen(false)}
+        />
+      </Suspense>
     </article>
   );
 }
