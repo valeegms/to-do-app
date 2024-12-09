@@ -27,7 +27,7 @@ export const TaskProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
   const editTask = (task: Task) => {
     setTasks((prevTasks) =>
-      prevTasks.map((t) => (t.id === task.id ? task : t))
+      prevTasks.map((prevTask) => (prevTask.id === task.id ? task : prevTask))
     );
   };
 

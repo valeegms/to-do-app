@@ -14,9 +14,13 @@ export const initializeTask = (): Task => {
     return new Task(id, "", "", "Pending", new Date(), roundedStartTime, endTime);
 };
 
-export const initializeCategory = (): Category => {
+export const defaultCategory = (): Category => {
     return new Category(0, "All", "📝", "emoji");
 } 
+
+export const initializeCategory = (): Category => {
+    return new Category(0, "", "000", "color");
+}
 
 export const formatTime = (date: Date): string => {
     return DateTime.fromISO(date?.toISOString()).toFormat("t");
