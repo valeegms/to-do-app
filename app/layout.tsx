@@ -3,7 +3,6 @@ import { Inter } from "next/font/google";
 import { PrimeReactProvider } from "primereact/api";
 
 import "./globals.css";
-import Navbar from "@/components/Navbar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,10 +19,7 @@ export default async function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.className}`}>
-        <PrimeReactProvider>
-          {/* <Navbar /> */}
-          {children}
-        </PrimeReactProvider>
+        <PrimeReactProvider>{children}</PrimeReactProvider>
       </body>
     </html>
   );

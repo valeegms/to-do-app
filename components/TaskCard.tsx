@@ -4,12 +4,24 @@ import { Task } from "@/models/Task";
 import { formatTime } from "@/utils/taskUtils";
 import { useState } from "react";
 
-export default function TaskCard({ task }: { task: Task }) {
+export default function TaskCard({
+  task,
+  onEdit,
+  onDelete,
+}: {
+  task: Task;
+  onEdit: (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    task: Task
+  ) => void;
+  onDelete: () => void;
+}) {
   const [done, setDone] = useState<boolean>(false);
 
   const handleDone = () => {
-    task.status = done ? "pending" : "done";
     setDone(!done);
+    task.status = !done ? "Completed" : "Pending";
+    console.log("Task status updated:", task);
   };
 
   return (
@@ -18,7 +30,7 @@ export default function TaskCard({ task }: { task: Task }) {
         <Checkbox checked={done} onChange={handleDone} disabled={done} />
         <div>
           <h4
-            className={`m-0 ${
+            className={` ${
               done ? "line-through text-gray-600" : "text-gray-800"
             }`}
           >
@@ -38,6 +50,7 @@ export default function TaskCard({ task }: { task: Task }) {
           size="small"
           aria-label="Edit"
           severity="warning"
+          onClick={(e) => onEdit(e, task)}
         />
         <Button
           text
@@ -47,6 +60,7 @@ export default function TaskCard({ task }: { task: Task }) {
           size="small"
           aria-label="Delete"
           severity="danger"
+          onClick={onDelete}
         />
         {done && (
           <Button

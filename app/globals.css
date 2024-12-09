@@ -36,6 +36,16 @@
 
 body {
   background-color: var(--gray-100);
+  margin: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
 }
 
 p {
@@ -53,10 +63,6 @@ p {
 .p-card-footer {
   padding: 0;
 }
-
-/* .p-dialog-header {
-  padding: 0.5rem 1rem;
-} */
 
 .p-tooltip-text {
   font-size: 0.8rem !important;

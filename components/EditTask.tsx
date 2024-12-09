@@ -1,18 +1,23 @@
 import { Task } from "@/models/Task";
-import { initializeTask } from "@/utils/taskUtils";
+import TaskForm from "./TaskForm";
 import { Button } from "primereact/button";
 import { OverlayPanel } from "primereact/overlaypanel";
-import { useState } from "react";
-import TaskForm from "./TaskForm";
+import { useEffect, useState } from "react";
 
-export default function AddTask({
+export default function EditTask({
   ref,
-  onTaskAdd,
+  task,
+  onTaskEdit,
 }: {
   ref: React.RefObject<OverlayPanel | null>;
-  onTaskAdd: (task: Task) => void;
+  task: Task;
+  onTaskEdit: (task: Task) => void;
 }) {
-  const [formData, setFormData] = useState<Task>(initializeTask());
+  const [formData, setFormData] = useState<Task>(task);
+
+  useEffect(() => {
+    setFormData(task);
+  }, [task]);
 
   const handleSubmit = (
     e: React.KeyboardEvent<HTMLInputElement> | React.FormEvent<HTMLFormElement>
@@ -21,9 +26,7 @@ export default function AddTask({
 
     if (formData?.title.trim() === "") return;
 
-    onTaskAdd(formData as Task);
-
-    setFormData(initializeTask());
+    onTaskEdit(formData);
 
     ref.current?.hide();
   };
@@ -40,7 +43,7 @@ export default function AddTask({
         <footer className="col-12">
           <Button
             type="submit"
-            label="Create"
+            label="Save changes"
             className="px-5 border-round-lg w-full"
           />
         </footer>

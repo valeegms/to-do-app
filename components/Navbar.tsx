@@ -1,3 +1,5 @@
+"use client";
+
 import { Menubar } from "primereact/menubar";
 import { MenuItem } from "primereact/menuitem";
 
@@ -5,53 +7,22 @@ export default function Navbar() {
   const items: MenuItem[] = [
     {
       label: "Home",
-      icon: "pi pi-home",
+      icon: "pi pi-fw pi-home",
     },
     {
-      label: "Features",
-      icon: "pi pi-star",
+      label: "Tasks",
+      icon: "pi pi-fw pi-calendar",
     },
     {
-      label: "Projects",
-      icon: "pi pi-search",
-      items: [
-        {
-          label: "Components",
-          icon: "pi pi-bolt",
-        },
-        {
-          label: "Blocks",
-          icon: "pi pi-server",
-        },
-        {
-          label: "UI Kit",
-          icon: "pi pi-pencil",
-        },
-        {
-          label: "Templates",
-          icon: "pi pi-palette",
-          items: [
-            {
-              label: "Apollo",
-              icon: "pi pi-palette",
-            },
-            {
-              label: "Ultima",
-              icon: "pi pi-palette",
-            },
-          ],
-        },
-      ],
-    },
-    {
-      label: "Contact",
-      icon: "pi pi-envelope",
+      label: "Settings",
+      icon: "pi pi-fw pi-cog",
     },
   ];
 
   return (
-    <div className="card">
-      <Menubar model={items} />
-    </div>
+    <nav className="min-h-screen p-3 bg-white">
+      <h1>Lists</h1>
+      <section className="p-4"></section>
+    </nav>
   );
 }
