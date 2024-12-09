@@ -1,34 +1,21 @@
 import { Button } from "primereact/button";
 import TaskCard from "./TaskCard";
-import { Category } from "@/models/Category";
 import { Task } from "@/models/Task";
 import { useMemo, useRef, useState, lazy, Suspense } from "react";
 import { OverlayPanel } from "primereact/overlaypanel";
 import { initializeTask } from "@/utils/taskUtils";
+import { useTaskContext } from "@/context/TaskContext";
 
 const AddTask = lazy(() => import("./AddTask"));
 const EditTask = lazy(() => import("./EditTask"));
 const ConfirmDialog = lazy(() => import("./ConfirmDialog"));
 
-export default function TaskManager({
-  tasks,
-  setTasks,
-  categories,
-  onTaskAdd,
-  onTaskEdit,
-  onTaskDelete,
-}: {
-  tasks: Task[];
-  setTasks: React.Dispatch<React.SetStateAction<Task[]>>;
-  categories: Category[];
-  onTaskAdd: (task: Task) => void;
-  onTaskEdit: (task: Task) => void;
-  onTaskDelete: (task: Task) => void;
-}) {
+export default function TaskManager({ tasks }: { tasks: Task[] }) {
   const taskOverlayRef = useRef<OverlayPanel>(null);
   const [selectedTask, setSelectedTask] = useState<Task>(initializeTask());
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);
   const editTaskOverlayRef = useRef<OverlayPanel>(null);
+  const { deleteTask } = useTaskContext();
 
   const pendingTasks = useMemo(() => {
     return tasks.filter((task) => task.status.toLowerCase() === "pending")
@@ -41,7 +28,7 @@ export default function TaskManager({
   };
 
   const handleOnConfirm = () => {
-    onTaskDelete(selectedTask);
+    deleteTask(selectedTask);
     setIsDeleteDialogOpen(false);
   };
 
@@ -68,7 +55,6 @@ export default function TaskManager({
           <TaskCard
             key={task.id}
             task={task}
-            setTasks={setTasks}
             onEdit={openEditTaskOverlay}
             onDelete={() => openConfirmDialog(task)}
           />
@@ -82,19 +68,10 @@ export default function TaskManager({
         onClick={(e) => taskOverlayRef.current?.toggle(e)}
       />
       <Suspense fallback={null}>
-        <AddTask
-          ref={taskOverlayRef}
-          categories={categories}
-          onTaskAdd={onTaskAdd}
-        />
+        <AddTask ref={taskOverlayRef} />
       </Suspense>
       <Suspense fallback={null}>
-        <EditTask
-          ref={editTaskOverlayRef}
-          categories={categories}
-          onTaskEdit={onTaskEdit}
-          task={selectedTask}
-        />
+        <EditTask ref={editTaskOverlayRef} task={selectedTask} />
       </Suspense>
       <Suspense fallback={null}>
         <ConfirmDialog

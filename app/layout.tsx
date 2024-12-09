@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 import { PrimeReactProvider } from "primereact/api";
 
 import "./globals.css";
+import { TaskProvider } from "@/context/TaskContext";
+import { CategoryProvider } from "@/context/CategoryContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,7 +21,11 @@ export default async function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.className}`}>
-        <PrimeReactProvider>{children}</PrimeReactProvider>
+        <PrimeReactProvider>
+          <TaskProvider>
+            <CategoryProvider>{children}</CategoryProvider>
+          </TaskProvider>
+        </PrimeReactProvider>
       </body>
     </html>
   );

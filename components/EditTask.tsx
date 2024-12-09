@@ -3,19 +3,16 @@ import TaskForm from "./TaskForm";
 import { Button } from "primereact/button";
 import { OverlayPanel } from "primereact/overlaypanel";
 import { useEffect, useState } from "react";
-import { Category } from "@/models/Category";
+import { useTaskContext } from "@/context/TaskContext";
 
 export default function EditTask({
   ref,
   task,
-  categories,
-  onTaskEdit,
 }: {
   ref: React.RefObject<OverlayPanel | null>;
   task: Task;
-  categories: Category[];
-  onTaskEdit: (task: Task) => void;
 }) {
+  const { editTask } = useTaskContext();
   const [formData, setFormData] = useState<Task>(task);
 
   useEffect(() => {
@@ -29,7 +26,7 @@ export default function EditTask({
 
     if (formData?.title.trim() === "") return;
 
-    onTaskEdit(formData);
+    editTask(formData);
 
     ref.current?.hide();
   };
@@ -42,11 +39,7 @@ export default function EditTask({
       showCloseIcon
     >
       <form className="grid" onSubmit={handleSubmit}>
-        <TaskForm
-          categories={categories}
-          formData={formData}
-          setFormData={setFormData}
-        />
+        <TaskForm formData={formData} setFormData={setFormData} />
         <footer className="col-12">
           <Button
             type="submit"

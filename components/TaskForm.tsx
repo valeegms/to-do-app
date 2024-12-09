@@ -1,3 +1,4 @@
+import { useCategoryContext } from "@/context/CategoryContext";
 import { Category } from "@/models/Category";
 import { Task } from "@/models/Task";
 import { formatDate, formatTime } from "@/utils/taskUtils";
@@ -13,16 +14,17 @@ import { Nullable } from "primereact/ts-helpers";
 import { useMemo, useState } from "react";
 
 export default function TaskForm({
-  categories,
   formData,
   setFormData,
 }: {
-  categories: Category[];
   formData: Task;
   setFormData: React.Dispatch<React.SetStateAction<Task>>;
 }) {
+  const { categories } = useCategoryContext();
+  const skipFirstCategory = categories?.slice(1);
+
   const [filteredCategories, setFilteredCategories] =
-    useState<Category[]>(categories);
+    useState<Category[]>(skipFirstCategory);
   const formattedStartTime = useMemo(
     () => formatTime(formData?.startTime),
     [formData?.startTime]

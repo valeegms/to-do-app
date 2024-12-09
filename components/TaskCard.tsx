@@ -4,31 +4,26 @@ import { Task } from "@/models/Task";
 import { formatTime } from "@/utils/taskUtils";
 import { useState } from "react";
 import TaskCategoriesTags from "./ui/TaskCategoriesTags";
+import { useTaskContext } from "@/context/TaskContext";
 
 export default function TaskCard({
   task,
-  setTasks,
   onEdit,
   onDelete,
 }: {
   task: Task;
-  setTasks: React.Dispatch<React.SetStateAction<Task[]>>;
   onEdit: (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
     task: Task
   ) => void;
   onDelete: () => void;
 }) {
+  const { editTaskStatus } = useTaskContext();
   const [done, setDone] = useState<boolean>(false);
 
   const handleDone = () => {
     setDone(!done);
-
-    setTasks((prevTasks) =>
-      prevTasks.map((t) =>
-        t.id === task.id ? { ...t, status: !done ? "Completed" : "Pending" } : t
-      )
-    );
+    editTaskStatus(task, done ? "Pending" : "Completed");
   };
 
   return (

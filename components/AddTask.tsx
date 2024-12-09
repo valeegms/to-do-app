@@ -4,17 +4,14 @@ import { Button } from "primereact/button";
 import { OverlayPanel } from "primereact/overlaypanel";
 import { useState } from "react";
 import TaskForm from "./TaskForm";
-import { Category } from "@/models/Category";
+import { useTaskContext } from "@/context/TaskContext";
 
 export default function AddTask({
   ref,
-  categories,
-  onTaskAdd,
 }: {
   ref: React.RefObject<OverlayPanel | null>;
-  categories: Category[];
-  onTaskAdd: (task: Task) => void;
 }) {
+  const { addTask } = useTaskContext();
   const [formData, setFormData] = useState<Task>(initializeTask());
 
   const handleSubmit = (
@@ -24,7 +21,7 @@ export default function AddTask({
 
     if (formData?.title.trim() === "") return;
 
-    onTaskAdd(formData as Task);
+    addTask(formData as Task);
 
     setFormData(initializeTask());
 
@@ -39,11 +36,7 @@ export default function AddTask({
       showCloseIcon
     >
       <form className="grid" onSubmit={handleSubmit}>
-        <TaskForm
-          categories={categories}
-          formData={formData}
-          setFormData={setFormData}
-        />
+        <TaskForm formData={formData} setFormData={setFormData} />
         <footer className="col-12">
           <Button
             type="submit"

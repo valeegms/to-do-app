@@ -8,20 +8,12 @@ import AddNewCategory from "./AddNewCategory";
 import { Category } from "@/models/Category";
 import { Task } from "@/models/Task";
 import { initializeCategory } from "@/utils/taskUtils";
+import { useCategoryContext } from "@/context/CategoryContext";
 
-export default function Navbar({
-  tasks,
-  categories,
-  selectedCategory,
-  setSelectedCategory,
-  onCategoryAdd,
-}: {
-  tasks: Task[];
-  categories: Category[];
-  selectedCategory: Category;
-  setSelectedCategory: (category: Category) => void;
-  onCategoryAdd: (category: Category) => void;
-}) {
+export default function Navbar({ tasks }: { tasks: Task[] }) {
+  const { categories, selectedCategory, addCategory, selectCategory } =
+    useCategoryContext();
+
   const taskCountsByCategory = useMemo(() => {
     const counts = new Map<number, number>();
     tasks.forEach((task) => {
@@ -36,12 +28,12 @@ export default function Navbar({
     useState(false);
 
   const handleCategoryAdd = (category: Category) => {
-    onCategoryAdd(category);
+    addCategory(category);
     setIsNewCategoryDialogVisible(false);
   };
 
   const handleSelectedCategory = (category: Category) => {
-    setSelectedCategory(category);
+    selectCategory(category);
   };
 
   return (
