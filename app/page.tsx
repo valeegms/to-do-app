@@ -39,29 +39,21 @@ export default function Home() {
   };
 
   useEffect(() => {
-    if (selectedCategory.id === 0) {
-      setFilteredTasks(tasks);
-    } else {
-      setFilteredTasks(
-        tasks.filter((task) => {
-          if (task.categories) {
-            return task.categories.includes(selectedCategory);
-          }
-          return task;
-        })
-      );
-    }
-  }, [tasks]);
+    const filterTasks = () => {
+      if (selectedCategory.id === 0) {
+        return tasks;
+      } else {
+        return tasks.filter((task) =>
+          task.categories?.includes(selectedCategory)
+        );
+      }
+    };
+
+    setFilteredTasks(filterTasks());
+  }, [tasks, selectedCategory]);
 
   const handleCategorySelect = (category: Category) => {
     setSelectedCategory(category);
-    if (category.id === 0) {
-      setFilteredTasks(tasks);
-      return;
-    }
-    setFilteredTasks(
-      tasks.filter((task) => task.categories?.includes(category))
-    );
   };
 
   return (

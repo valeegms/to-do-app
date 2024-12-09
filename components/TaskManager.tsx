@@ -1,13 +1,14 @@
 import { Button } from "primereact/button";
 import ConfirmDialog from "./ConfirmDialog";
-import AddTask from "./AddTask";
-import EditTask from "./EditTask";
 import TaskCard from "./TaskCard";
 import { Category } from "@/models/Category";
 import { Task } from "@/models/Task";
-import { useEffect, useRef, useState } from "react";
+import { useMemo, useRef, useState, lazy, Suspense } from "react";
 import { OverlayPanel } from "primereact/overlaypanel";
 import { initializeTask } from "@/utils/taskUtils";
+
+const AddTask = lazy(() => import("./AddTask"));
+const EditTask = lazy(() => import("./EditTask"));
 
 export default function TaskManager({
   tasks,
@@ -26,15 +27,12 @@ export default function TaskManager({
 }) {
   const taskOverlayRef = useRef<OverlayPanel>(null);
   const [selectedTask, setSelectedTask] = useState<Task>(initializeTask());
-  const [pendingTasks, setPendingTasks] = useState<number>(0);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);
   const editTaskOverlayRef = useRef<OverlayPanel>(null);
 
-  useEffect(() => {
-    console.log("Tasks updated -> TaskManager:", tasks);
-    setPendingTasks(
-      tasks.filter((task) => task.status.toLowerCase() == "pending").length
-    );
+  const pendingTasks = useMemo(() => {
+    return tasks.filter((task) => task.status.toLowerCase() === "pending")
+      .length;
   }, [tasks]);
 
   const openConfirmDialog = (task: Task) => {
@@ -58,7 +56,6 @@ export default function TaskManager({
   return (
     <article className="p-4 flex-1">
       <section className="">
-        {/* greetings depending on time of the day */}
         <h1 className="font-bold text-gray-800">
           Good {new Date().getHours() < 12 ? "morning" : "evening"}! &#128075;
         </h1>
@@ -84,17 +81,21 @@ export default function TaskManager({
         className="block px-5 m-auto mt-2 border-round-lg"
         onClick={(e) => taskOverlayRef.current?.toggle(e)}
       />
-      <AddTask
-        ref={taskOverlayRef}
-        categories={categories}
-        onTaskAdd={onTaskAdd}
-      />
-      <EditTask
-        ref={editTaskOverlayRef}
-        categories={categories}
-        onTaskEdit={onTaskEdit}
-        task={selectedTask}
-      />
+      <Suspense fallback={null}>
+        <AddTask
+          ref={taskOverlayRef}
+          categories={categories}
+          onTaskAdd={onTaskAdd}
+        />
+      </Suspense>
+      <Suspense fallback={null}>
+        <EditTask
+          ref={editTaskOverlayRef}
+          categories={categories}
+          onTaskEdit={onTaskEdit}
+          task={selectedTask}
+        />
+      </Suspense>
       <ConfirmDialog
         title={`Delete task "${selectedTask.title}"`}
         message="Are you sure you want to delete this task? This action cannot be undone."

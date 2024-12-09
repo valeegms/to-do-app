@@ -24,24 +24,17 @@ export default function TaskCard({
   const handleDone = () => {
     setDone(!done);
 
-    setTasks((prevTasks) => {
-      const index = prevTasks.findIndex((t) => t.id === task.id);
-      prevTasks[index].status = !done ? "Completed" : "Pending";
-
-      return [...prevTasks];
-    });
-
-    console.log("Task status updated:", task, done);
+    setTasks((prevTasks) =>
+      prevTasks.map((t) =>
+        t.id === task.id ? { ...t, status: !done ? "Completed" : "Pending" } : t
+      )
+    );
   };
 
   return (
     <article className="bg-white p-card border-round-lg p-3 flex justify-content-between">
       <section className="flex align-items-center gap-3 select-none">
-        <Checkbox
-          checked={task.status.toLowerCase() == "completed"}
-          onChange={handleDone}
-          disabled={task.status.toLowerCase() == "completed"}
-        />
+        <Checkbox checked={done} onChange={handleDone} disabled={done} />
         <div>
           <div className="flex gap-2 align-items-center">
             <h4

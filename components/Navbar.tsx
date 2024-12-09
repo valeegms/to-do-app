@@ -55,18 +55,17 @@ export default function Navbar({
         />
         <Divider />
         <div className="flex flex-column gap-2 mt-4">
-          {categories.map((category) => {
-            if (category.id != 0)
-              return (
-                <NavTaskCategory
-                  key={category.id}
-                  category={category}
-                  count={taskCountsByCategory.get(category.id) || 0}
-                  selected={selectedCategory?.id === category.id}
-                  onSelectedCategoryChange={handleSelectedCategory}
-                />
-              );
-          })}
+          {categories
+            .filter((category) => category.id !== 0)
+            .map((category) => (
+              <NavTaskCategory
+                key={category.id}
+                category={category}
+                count={taskCountsByCategory.get(category.id) || 0}
+                selected={selectedCategory?.id === category.id}
+                onSelectedCategoryChange={handleSelectedCategory}
+              />
+            ))}
         </div>
       </section>
       <section>
