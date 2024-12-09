@@ -1,3 +1,4 @@
+import { Category } from "@/models/Category";
 import { Task } from "@/models/Task";
 import { DateTime } from "luxon";
 
@@ -12,6 +13,10 @@ export const initializeTask = (): Task => {
 
     return new Task(id, "", "", "Pending", new Date(), roundedStartTime, endTime);
 };
+
+export const initializeCategory = (): Category => {
+    return new Category(0, "All", "📝", "emoji");
+} 
 
 export const formatTime = (date: Date): string => {
     return DateTime.fromISO(date?.toISOString()).toFormat("t");

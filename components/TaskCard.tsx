@@ -3,13 +3,16 @@ import { Checkbox } from "primereact/checkbox";
 import { Task } from "@/models/Task";
 import { formatTime } from "@/utils/taskUtils";
 import { useState } from "react";
+import TaskCategoriesTags from "./ui/TaskCategoriesTags";
 
 export default function TaskCard({
   task,
+  setTasks,
   onEdit,
   onDelete,
 }: {
   task: Task;
+  setTasks: React.Dispatch<React.SetStateAction<Task[]>>;
   onEdit: (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
     task: Task
@@ -20,22 +23,40 @@ export default function TaskCard({
 
   const handleDone = () => {
     setDone(!done);
-    task.status = !done ? "Completed" : "Pending";
-    console.log("Task status updated:", task);
+
+    setTasks((prevTasks) => {
+      const index = prevTasks.findIndex((t) => t.id === task.id);
+      prevTasks[index].status = !done ? "Completed" : "Pending";
+
+      return [...prevTasks];
+    });
+
+    console.log("Task status updated:", task, done);
   };
 
   return (
     <article className="bg-white p-card border-round-lg p-3 flex justify-content-between">
       <section className="flex align-items-center gap-3 select-none">
-        <Checkbox checked={done} onChange={handleDone} disabled={done} />
+        <Checkbox
+          checked={task.status.toLowerCase() == "completed"}
+          onChange={handleDone}
+          disabled={task.status.toLowerCase() == "completed"}
+        />
         <div>
-          <h4
-            className={` ${
-              done ? "line-through text-gray-600" : "text-gray-800"
-            }`}
-          >
-            {task.title}
-          </h4>
+          <div className="flex gap-2 align-items-center">
+            <h4
+              className={` ${
+                task.status.toLowerCase() == "completed"
+                  ? "line-through text-gray-600"
+                  : "text-gray-800"
+              }`}
+            >
+              {task.title}{" "}
+            </h4>
+            {task.categories && (
+              <TaskCategoriesTags categories={task.categories} />
+            )}
+          </div>
           <span className="text-xs text-gray-500">
             {`${formatTime(task.startTime)} - ${formatTime(task.endTime)}`}
           </span>

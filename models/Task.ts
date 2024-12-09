@@ -1,8 +1,11 @@
+import { Category } from "./Category";
+
 export class Task {
     id: number;
     title: string;
     description: string;
     status: string;
+    categories?: Category[];
     dueDate: Date;
     startTime: Date;
     endTime: Date;
@@ -14,7 +17,8 @@ export class Task {
         status: string,
         dueDate: Date,
         startTime: Date,
-        endTime: Date
+        endTime: Date,
+        categories?: Category[],
     ) {
         this.id = id;
         this.title = title;
@@ -23,5 +27,6 @@ export class Task {
         this.dueDate = dueDate;
         this.startTime = startTime;
         this.endTime = endTime;
+        this.categories = categories;
     }
 }
