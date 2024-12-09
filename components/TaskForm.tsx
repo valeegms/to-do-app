@@ -73,17 +73,24 @@ export default function TaskForm({
           )}
         </div>
       </span>
-      <Calendar
-        value={formData?.dueDate}
-        name="dueDate"
-        className="col-12 pt-4"
-        onChange={(e) =>
-          handleChange(e as unknown as React.ChangeEvent<HTMLInputElement>)
-        }
-        showWeek
-        showIcon
-        minDate={new Date()}
-      />
+      <span className="col-12 flex flex-column">
+        <label
+          htmlFor="dueDate"
+          className="sr-only text-xs font-semibold text-gray-500"
+        >
+          Due date
+        </label>
+        <Calendar
+          value={formData?.dueDate}
+          name="dueDate"
+          onChange={(e) =>
+            handleChange(e as unknown as React.ChangeEvent<HTMLInputElement>)
+          }
+          showWeek
+          showIcon
+          minDate={new Date()}
+        />
+      </span>
       <span className="col-6">
         <label
           htmlFor="startTime"
