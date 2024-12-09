@@ -1,7 +1,7 @@
 "use client";
 
 import { Category } from "@/models/Category";
-import { initializeCategory } from "@/utils/taskUtils";
+import { defaultCategory } from "@/utils/taskUtils";
 import {
   createContext,
   FC,
@@ -15,6 +15,8 @@ interface CategoryContextType {
   categories: Category[];
   selectedCategory: Category;
   addCategory: (category: Category) => void;
+  editCategory: (category: Category) => void;
+  deleteCategory: (category: Category) => void;
   selectCategory: (category: Category) => void;
 }
 
@@ -25,16 +27,37 @@ const CategoryContext = createContext<CategoryContextType | undefined>(
 export const CategoryProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<Category>(
-    initializeCategory()
+    defaultCategory()
   );
 
   const addCategory = (category: Category) =>
     setCategories((prevCategories) => [...prevCategories, category]);
 
+  const editCategory = (category: Category) => {
+    setCategories((prevCategories) =>
+      prevCategories.map((prevCat) =>
+        prevCat.id === category.id ? category : prevCat
+      )
+    );
+  };
+
+  const deleteCategory = (category: Category) => {
+    setCategories((prevCategories) =>
+      prevCategories.filter((prevCat) => prevCat.id !== category.id)
+    );
+  };
+
   const selectCategory = (category: Category) => setSelectedCategory(category);
 
   const value = useMemo(
-    () => ({ categories, selectedCategory, addCategory, selectCategory }),
+    () => ({
+      categories,
+      selectedCategory,
+      addCategory,
+      editCategory,
+      deleteCategory,
+      selectCategory,
+    }),
     [categories, selectedCategory]
   );
 

@@ -7,12 +7,12 @@ import { useMemo, useState } from "react";
 import AddNewCategory from "./AddNewCategory";
 import { Category } from "@/models/Category";
 import { Task } from "@/models/Task";
-import { initializeCategory } from "@/utils/taskUtils";
+import { defaultCategory } from "@/utils/taskUtils";
 import { useCategoryContext } from "@/context/CategoryContext";
 
 export default function Navbar({ tasks }: { tasks: Task[] }) {
-  const { categories, selectedCategory, addCategory, selectCategory } =
-    useCategoryContext();
+  const [isEditable, setEditCategory] = useState<boolean>(false);
+  const { categories, selectedCategory, addCategory } = useCategoryContext();
 
   const taskCountsByCategory = useMemo(() => {
     const counts = new Map<number, number>();
@@ -32,32 +32,43 @@ export default function Navbar({ tasks }: { tasks: Task[] }) {
     setIsNewCategoryDialogVisible(false);
   };
 
-  const handleSelectedCategory = (category: Category) => {
-    selectCategory(category);
-  };
-
   return (
     <nav className="min-h-screen w-16rem p-3 bg-white">
       <section className="bg-gray-50 p-3 border-round-lg border-gray-200 border-1">
         <NavTaskCategory
-          category={initializeCategory()}
+          category={defaultCategory()}
           count={tasks.length}
           selected={selectedCategory?.id === 0}
-          onSelectedCategoryChange={handleSelectedCategory}
         />
         <Divider />
+
+        <div className="w-full text-right">
+          <Button
+            text
+            size="small"
+            label={isEditable ? "Done" : "Edit"}
+            className="py-1"
+            onClick={() => setEditCategory(!isEditable)}
+          />
+        </div>
         <div className="flex flex-column gap-2 mt-4">
-          {categories
-            .filter((category) => category.id !== 0)
-            .map((category) => (
-              <NavTaskCategory
-                key={category.id}
-                category={category}
-                count={taskCountsByCategory.get(category.id) || 0}
-                selected={selectedCategory?.id === category.id}
-                onSelectedCategoryChange={handleSelectedCategory}
-              />
-            ))}
+          {categories.length > 0 ? (
+            categories
+              .filter((category) => category.id !== 0)
+              .map((category) => (
+                <NavTaskCategory
+                  key={category.id}
+                  category={category}
+                  count={taskCountsByCategory.get(category.id) || 0}
+                  selected={selectedCategory?.id === category.id}
+                  isEditable={isEditable}
+                />
+              ))
+          ) : (
+            <p className="text-gray-500 text-center text-sm p-0 font-light">
+              Start by adding a category
+            </p>
+          )}
         </div>
       </section>
       <section>

@@ -1,20 +1,21 @@
+import { useCategoryContext } from "@/context/CategoryContext";
 import { Category } from "@/models/Category";
-import { initializeCategory } from "@/utils/taskUtils";
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
-import { useState } from "react";
 import CategoryForm from "./CategoryForm";
+import { useState } from "react";
 
-export default function AddNewCategory({
+export default function EditCategory({
+  category,
   isVisible,
   onHide,
-  onCategoryAdd,
 }: {
+  category: Category;
   isVisible: boolean;
   onHide: () => void;
-  onCategoryAdd: (category: Category) => void;
 }) {
-  const [formData, setFormData] = useState<Category>(initializeCategory());
+  const [formData, setFormData] = useState<Category>(category);
+  const { editCategory } = useCategoryContext();
 
   const handleSubmit = (
     e:
@@ -26,18 +27,16 @@ export default function AddNewCategory({
 
     if (formData.title.trim() === "") return;
 
-    const newCategory = { ...formData, id: Math.floor(Math.random() * 1000) };
+    editCategory(formData);
 
-    onCategoryAdd(newCategory);
-
-    setFormData(initializeCategory());
+    onHide();
   };
 
   const footer = (
     <footer className="flex gap-2">
       <Button
         type="submit"
-        label="Create"
+        label="Save"
         className="flex-1"
         onClick={handleSubmit}
       />

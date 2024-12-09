@@ -52,6 +52,10 @@ p {
   margin: 0;
 }
 
+.category .p-dialog-header {
+  padding: 0.5rem ;
+}
+
  .category .p-autocomplete-multiple-container {
   width: 100%;
 }
