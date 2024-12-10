@@ -16,7 +16,7 @@ export default function Home() {
 
   useEffect(() => {
     setFilteredTasks(filterTasksByCategory(tasks, selectedCategory));
-    setToggleMenu(false);
+    // setToggleMenu(false);
   }, [tasks, selectedCategory]);
 
   return (

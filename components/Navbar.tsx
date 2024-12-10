@@ -59,6 +59,7 @@ export default function Navbar({
             category={defaultCategory()}
             count={tasks.length}
             selected={selectedCategory?.id === 0}
+            onSelect={handleToggleMenu}
           />
           <Divider className="" />
 
@@ -91,6 +92,7 @@ export default function Navbar({
                     count={taskCountsByCategory.get(category.id) || 0}
                     selected={selectedCategory?.id === category.id}
                     isEditable={isEditable}
+                    onSelect={handleToggleMenu}
                   />
                 ))
             ) : (
