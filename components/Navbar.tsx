@@ -51,7 +51,7 @@ export default function Navbar({ tasks }: { tasks: Task[] }) {
             onClick={() => setEditCategory(!isEditable)}
           />
         </div>
-        <div className="flex flex-column gap-2 mt-4">
+        <div className="flex flex-column gap-2 mt-4 max-h-18rem overflow-auto">
           {categories.length > 0 ? (
             categories
               .filter((category) => category.id !== 0)
