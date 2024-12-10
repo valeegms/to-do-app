@@ -11,9 +11,9 @@ const EditTask = lazy(() => import("./EditTask"));
 const ConfirmDialog = lazy(() => import("./ConfirmDialog"));
 
 export default function TaskManager({ tasks }: { tasks: Task[] }) {
-  const taskOverlayRef = useRef<OverlayPanel>(null);
   const [selectedTask, setSelectedTask] = useState<Task>(initializeTask());
-  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [isNewTaskDialogVisible, setIsNewTaskDialogVisible] = useState(false);
   const editTaskOverlayRef = useRef<OverlayPanel>(null);
   const { deleteTask } = useTaskContext();
 
@@ -65,10 +65,13 @@ export default function TaskManager({ tasks }: { tasks: Task[] }) {
         label="Create new task"
         icon="pi pi-plus"
         className="block px-5 m-auto mt-2 border-round-lg"
-        onClick={(e) => taskOverlayRef.current?.toggle(e)}
+        onClick={() => setIsNewTaskDialogVisible(true)}
       />
       <Suspense fallback={null}>
-        <AddTask ref={taskOverlayRef} />
+        <AddTask
+          isVisible={isNewTaskDialogVisible}
+          onHide={() => setIsNewTaskDialogVisible(false)}
+        />
       </Suspense>
       <Suspense fallback={null}>
         <EditTask ref={editTaskOverlayRef} task={selectedTask} />

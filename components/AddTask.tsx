@@ -1,15 +1,17 @@
 import { Task } from "@/models/Task";
 import { initializeTask } from "@/utils/taskUtils";
 import { Button } from "primereact/button";
-import { OverlayPanel } from "primereact/overlaypanel";
 import { useState } from "react";
 import TaskForm from "./TaskForm";
 import { useTaskContext } from "@/context/TaskContext";
+import { Dialog } from "primereact/dialog";
 
 export default function AddTask({
-  ref,
+  isVisible,
+  onHide,
 }: {
-  ref: React.RefObject<OverlayPanel | null>;
+  isVisible: boolean;
+  onHide: () => void;
 }) {
   const { addTask } = useTaskContext();
   const [formData, setFormData] = useState<Task>(initializeTask());
@@ -25,16 +27,11 @@ export default function AddTask({
 
     setFormData(initializeTask());
 
-    ref.current?.hide();
+    onHide();
   };
 
   return (
-    <OverlayPanel
-      ref={ref}
-      data-pr-position="mouse"
-      className="w-5"
-      showCloseIcon
-    >
+    <Dialog onHide={onHide} visible={isVisible} className="w-5">
       <form className="grid" onSubmit={handleSubmit}>
         <TaskForm formData={formData} setFormData={setFormData} />
         <footer className="col-12">
@@ -45,6 +42,6 @@ export default function AddTask({
           />
         </footer>
       </form>
-    </OverlayPanel>
+    </Dialog>
   );
 }
