@@ -34,7 +34,7 @@ export default function Navbar({ tasks }: { tasks: Task[] }) {
   };
 
   return (
-    <nav className="min-h-screen w-16rem p-3 bg-white">
+    <nav className="md:min-h-screen md:w-16rem md:p-3 bg-white">
       <section className="bg-gray-50 p-3 border-round-lg border-gray-200 border-1">
         <NavTaskCategory
           category={defaultCategory()}

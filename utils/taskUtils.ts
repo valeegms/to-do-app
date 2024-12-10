@@ -14,6 +14,14 @@ export const initializeTask = (): Task => {
     return new Task(id, "", "", "Pending", new Date(), roundedStartTime, endTime);
 };
 
+export const filterTasksByCategory = (tasks: Task[], category: Category): Task[] => {
+    if (category.id === 0) {
+        return tasks;
+    } else {
+        return tasks.filter((task) => task.categories?.includes(category));
+    }
+}
+
 export const defaultCategory = (): Category => {
     return new Category(0, "All", "📝", "emoji");
 } 

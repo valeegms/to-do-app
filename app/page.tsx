@@ -6,6 +6,7 @@ import Navbar from "@/components/Navbar";
 import TaskManager from "@/components/TaskManager";
 import { useCategoryContext } from "@/context/CategoryContext";
 import { useTaskContext } from "@/context/TaskContext";
+import { filterTasksByCategory } from "@/utils/taskUtils";
 
 export default function Home() {
   const { tasks } = useTaskContext();
@@ -13,21 +14,11 @@ export default function Home() {
   const [filteredTasks, setFilteredTasks] = useState<Task[]>(tasks);
 
   useEffect(() => {
-    const filterTasks = () => {
-      if (selectedCategory.id === 0) {
-        return tasks;
-      } else {
-        return tasks.filter((task) =>
-          task.categories?.includes(selectedCategory)
-        );
-      }
-    };
-
-    setFilteredTasks(filterTasks());
+    setFilteredTasks(filterTasksByCategory(tasks, selectedCategory));
   }, [tasks, selectedCategory]);
 
   return (
-    <div className="flex">
+    <div className="md:flex">
       <Navbar tasks={tasks} />
       <TaskManager tasks={filteredTasks} />
     </div>

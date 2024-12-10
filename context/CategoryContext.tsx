@@ -14,6 +14,7 @@ import {
 interface CategoryContextType {
   categories: Category[];
   selectedCategory: Category;
+  modifiedCategory: Category;
   addCategory: (category: Category) => void;
   editCategory: (category: Category) => void;
   deleteCategory: (category: Category) => void;
@@ -29,6 +30,9 @@ export const CategoryProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [selectedCategory, setSelectedCategory] = useState<Category>(
     defaultCategory()
   );
+  const [modifiedCategory, setModifiedCategory] = useState<Category>(
+    defaultCategory()
+  );
 
   const addCategory = (category: Category) =>
     setCategories((prevCategories) => [...prevCategories, category]);
@@ -39,6 +43,8 @@ export const CategoryProvider: FC<{ children: ReactNode }> = ({ children }) => {
         prevCat.id === category.id ? category : prevCat
       )
     );
+
+    setModifiedCategory(category);
   };
 
   const deleteCategory = (category: Category) => {
@@ -53,12 +59,13 @@ export const CategoryProvider: FC<{ children: ReactNode }> = ({ children }) => {
     () => ({
       categories,
       selectedCategory,
+      modifiedCategory,
       addCategory,
       editCategory,
       deleteCategory,
       selectCategory,
     }),
-    [categories, selectedCategory]
+    [categories, selectedCategory, modifiedCategory]
   );
 
   return (

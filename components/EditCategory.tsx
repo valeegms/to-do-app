@@ -4,6 +4,8 @@ import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
 import CategoryForm from "./CategoryForm";
 import { useState } from "react";
+import { useTaskContext } from "@/context/TaskContext";
+import { Task } from "@/models/Task";
 
 export default function EditCategory({
   category,
@@ -16,6 +18,7 @@ export default function EditCategory({
 }) {
   const [formData, setFormData] = useState<Category>(category);
   const { editCategory } = useCategoryContext();
+  const { tasks, editTask } = useTaskContext();
 
   const handleSubmit = (
     e:
@@ -28,6 +31,19 @@ export default function EditCategory({
     if (formData.title.trim() === "") return;
 
     editCategory(formData);
+
+    if (
+      tasks.some((task) =>
+        task.categories?.some((cat) => cat.id === formData.id)
+      )
+    ) {
+      editTask({
+        ...(tasks.find((task) =>
+          task.categories?.some((cat) => cat.id === formData.id)
+        ) as Task),
+        categories: [formData],
+      });
+    }
 
     onHide();
   };
