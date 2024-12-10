@@ -50,7 +50,7 @@ export default function Navbar({
         <Button text icon="pi pi-bars" onClick={handleToggleMenu} />
       </div>
       <nav
-        className={`bg-gray-50 min-h-screen md:w-16rem md:p-3 md:bg-white ${
+        className={`bg-gray-50 min-h-screen md:w-18rem md:p-3 md:bg-white ${
           toggleMenu ? "hidden" : "block"
         } md:block`}
       >
