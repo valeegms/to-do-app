@@ -1,7 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  basePath: "/to-do-app",
+   output: "export"
 };
 
 export default nextConfig;
