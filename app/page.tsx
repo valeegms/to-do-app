@@ -16,7 +16,6 @@ export default function Home() {
 
   useEffect(() => {
     setFilteredTasks(filterTasksByCategory(tasks, selectedCategory));
-    // setToggleMenu(false);
   }, [tasks, selectedCategory]);
 
   return (
@@ -26,7 +25,7 @@ export default function Home() {
         toggleMenu={toggleMenu}
         setToggleMenu={setToggleMenu}
       />
-      <div className={`md:block ${toggleMenu ? "block" : "hidden"} w-full`}>
+      <div className={`md:block ${!toggleMenu ? "block" : "hidden"} w-full`}>
         <TaskManager tasks={filteredTasks} />
       </div>
     </div>

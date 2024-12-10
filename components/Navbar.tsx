@@ -51,7 +51,7 @@ export default function Navbar({
       </div>
       <nav
         className={`bg-gray-50 min-h-screen md:w-18rem md:p-3 md:bg-white ${
-          toggleMenu ? "hidden" : "block"
+          !toggleMenu ? "hidden" : "block"
         } md:block`}
       >
         <section className="bg-gray-50 p-3 md:border-round-lg border-gray-200 md:border-1">
@@ -59,7 +59,7 @@ export default function Navbar({
             category={defaultCategory()}
             count={tasks.length}
             selected={selectedCategory?.id === 0}
-            onSelect={handleToggleMenu}
+            handleToggleMenu={handleToggleMenu}
           />
           <Divider className="" />
 
@@ -92,7 +92,7 @@ export default function Navbar({
                     count={taskCountsByCategory.get(category.id) || 0}
                     selected={selectedCategory?.id === category.id}
                     isEditable={isEditable}
-                    onSelect={handleToggleMenu}
+                    handleToggleMenu={handleToggleMenu}
                   />
                 ))
             ) : (

@@ -11,20 +11,20 @@ export default function NavTaskCategory({
   count,
   selected,
   isEditable = false,
-  onSelect,
+  handleToggleMenu,
 }: {
   category: Category;
   count: number;
   selected: boolean;
   isEditable?: boolean;
-  onSelect: (category: Category) => void;
+  handleToggleMenu: () => void;
 }) {
   const { selectCategory, deleteCategory } = useCategoryContext();
   const [editIsVisible, setEditIsVisible] = useState(false);
 
   const handleSelectedCategory = (category: Category) => {
     selectCategory(category);
-    onSelect(category);
+    handleToggleMenu();
   };
 
   return (
