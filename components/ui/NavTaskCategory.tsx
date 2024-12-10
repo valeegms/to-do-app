@@ -25,7 +25,7 @@ export default function NavTaskCategory({
   };
 
   return (
-    <div className=" w-full flex">
+    <div className="md:w-full flex">
       <Button
         onClick={() => handleSelectedCategory(category)}
         text
@@ -48,7 +48,10 @@ export default function NavTaskCategory({
           )}
           <p className="font-semibold flex-1 text-sm">{category.title}</p>
         </div>
-        <Badge value={count} className="bg-bluegray-300 text-white" />
+        <Badge
+          value={count}
+          className="hidden md:bg-bluegray-300 md:text-white"
+        />
       </Button>
       {category.id != 0 && isEditable && (
         <section>

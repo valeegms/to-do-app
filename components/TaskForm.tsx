@@ -103,7 +103,7 @@ export default function TaskForm({
           placeholder="Create a new task"
           className="w-full p-inputtext-sm"
           style={
-            formData?.startTime && formData?.endTime
+            formData?.startTime && formData?.endTime && screen.width > 768
               ? { paddingRight: "16.3rem" }
               : { paddingRight: "7rem" }
           }
@@ -116,12 +116,12 @@ export default function TaskForm({
         >
           <Chip
             label={formattedDueDate}
-            className="mt-2 text-xs px-3 py-0 border-round-md select-none"
+            className=" mt-2 text-xs px-3 py-0 border-round-md select-none"
           />
           {formData?.startTime && formData?.endTime && (
             <Chip
               label={`${formattedStartTime} - ${formattedEndTime}`}
-              className={`mt-2 text-xs px-3 py-0 border-round-md select-none`}
+              className={`hidden md:block mt-2 text-xs px-3 py-0 border-round-md select-none`}
             />
           )}
         </div>

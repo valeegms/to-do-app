@@ -29,6 +29,7 @@ export default function ConfirmDialog({
 
   return (
     <Dialog
+      className="md:w-5 w-11"
       header={title}
       visible={isVisible}
       onHide={onHide}

@@ -35,7 +35,7 @@ export default function EditTask({
     <OverlayPanel
       ref={ref}
       data-pr-position="mouse"
-      className="w-5"
+      className="md:w-5 w-8"
       showCloseIcon
     >
       <form className="grid" onSubmit={handleSubmit}>

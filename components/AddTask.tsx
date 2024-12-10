@@ -31,7 +31,7 @@ export default function AddTask({
   };
 
   return (
-    <Dialog onHide={onHide} visible={isVisible} className="w-5">
+    <Dialog onHide={onHide} visible={isVisible} className="md:w-5 w-11">
       <form className="grid" onSubmit={handleSubmit}>
         <TaskForm formData={formData} setFormData={setFormData} />
         <footer className="col-12">

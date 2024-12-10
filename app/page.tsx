@@ -11,16 +11,24 @@ import { filterTasksByCategory } from "@/utils/taskUtils";
 export default function Home() {
   const { tasks } = useTaskContext();
   const { selectedCategory } = useCategoryContext();
+  const [toggleMenu, setToggleMenu] = useState<boolean>(false);
   const [filteredTasks, setFilteredTasks] = useState<Task[]>(tasks);
 
   useEffect(() => {
     setFilteredTasks(filterTasksByCategory(tasks, selectedCategory));
+    setToggleMenu(false);
   }, [tasks, selectedCategory]);
 
   return (
     <div className="md:flex">
-      <Navbar tasks={tasks} />
-      <TaskManager tasks={filteredTasks} />
+      <Navbar
+        tasks={tasks}
+        toggleMenu={toggleMenu}
+        setToggleMenu={setToggleMenu}
+      />
+      <div className={`md:block ${toggleMenu ? "block" : "hidden"} w-full`}>
+        <TaskManager tasks={filteredTasks} />
+      </div>
     </div>
   );
 }
