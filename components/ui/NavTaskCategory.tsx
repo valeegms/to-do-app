@@ -2,7 +2,7 @@ import { useCategoryContext } from "@/context/CategoryContext";
 import { Category } from "@/models/Category";
 import { Badge } from "primereact/badge";
 import { Button } from "primereact/button";
-import { lazy, useState } from "react";
+import { lazy, Suspense, useState } from "react";
 
 const EditCategory = lazy(() => import("../EditCategory"));
 
@@ -74,11 +74,13 @@ export default function NavTaskCategory({
           />
         </section>
       )}
-      <EditCategory
-        category={category}
-        isVisible={editIsVisible}
-        onHide={() => setEditIsVisible(false)}
-      />
+      <Suspense fallback={null}>
+        <EditCategory
+          category={category}
+          isVisible={editIsVisible}
+          onHide={() => setEditIsVisible(false)}
+        />
+      </Suspense>
     </div>
   );
 }

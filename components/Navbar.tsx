@@ -3,12 +3,13 @@
 import NavTaskCategory from "./ui/NavTaskCategory";
 import { Divider } from "primereact/divider";
 import { Button } from "primereact/button";
-import { useMemo, useState } from "react";
-import AddNewCategory from "./AddNewCategory";
+import { lazy, Suspense, useMemo, useState } from "react";
 import { Category } from "@/models/Category";
 import { Task } from "@/models/Task";
 import { defaultCategory } from "@/utils/taskUtils";
 import { useCategoryContext } from "@/context/CategoryContext";
+
+const AddNewCategory = lazy(() => import("./AddNewCategory"));
 
 export default function Navbar({ tasks }: { tasks: Task[] }) {
   const [isEditable, setEditCategory] = useState<boolean>(false);
@@ -81,11 +82,13 @@ export default function Navbar({ tasks }: { tasks: Task[] }) {
           onClick={() => setIsNewCategoryDialogVisible(true)}
         />
       </section>
-      <AddNewCategory
-        isVisible={isNewCategoryDialogVisible}
-        onHide={() => setIsNewCategoryDialogVisible(false)}
-        onCategoryAdd={handleCategoryAdd}
-      />
+      <Suspense fallback={null}>
+        <AddNewCategory
+          isVisible={isNewCategoryDialogVisible}
+          onHide={() => setIsNewCategoryDialogVisible(false)}
+          onCategoryAdd={handleCategoryAdd}
+        />
+      </Suspense>
     </nav>
   );
 }
